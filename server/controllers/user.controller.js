@@ -1,7 +1,7 @@
 import User from '../models/user.model'
 // lodash is used for updating details of an existing user 
-import _ from lodash
-import errorHandler from './error.controller'
+import _ from 'lodash'
+import errorHandler from '../utils/dbErrorHandler'
 
 const create = (req, res, next) => {
     const user = new User(req.body)
@@ -29,13 +29,14 @@ const list = (req, res) => {
 }
 
 const userByID = (req, res, next, id) => {
-    User.findById(id).exex((err, user) => {
+    console.log('Welcome to userById')
+    User.findById(id).exec((err, user) => {
         if (err || !user)
             return res.status(400).json({
                 error: "User not found"
             })
         req.profile = user
-        next
+        next()
     })
 }
 const read = (req, res) => {
